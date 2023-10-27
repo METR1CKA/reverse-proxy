@@ -1,0 +1,25 @@
+version: '3'
+services:
+  app-web:
+    build:
+      context: ./nginx-web
+      dockerfile: Dockerfile
+    networks:
+      - internal
+  db:
+    build:
+      context: ./postgresql
+      dockerfile: Dockerfile
+    networks:
+      - internal
+  reverse-proxy:
+    build:
+      context: ./nginx-reverse-proxy
+      dockerfile: Dockerfile
+    ports:
+      - '80:80'
+    networks:
+      - internal
+networks:
+  internal:
+    driver: bridge
