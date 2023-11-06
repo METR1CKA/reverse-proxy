@@ -1,5 +1,7 @@
 # REVERSE - PROXY
 
-1.- docker network create internal
+### Comando para levantar el contenedor
 
-2.- docker-compose up -d
+```bash
+docker compose up -d
+```
