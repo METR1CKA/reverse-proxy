@@ -18,7 +18,7 @@ services:
       - mynet
   reverseproxy:
     container_name: reverseproxy
-    build: ./nginx-reverse-proxy
+    build: .
     ports:
       - '80:80'
     networks:
