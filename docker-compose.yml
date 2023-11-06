@@ -1,25 +1,32 @@
 version: '3'
 services:
-  app-web:
-    build:
-      context: ./nginx-web
-      dockerfile: Dockerfile
+  appweb:
+    container_name: appweb
+    image: httpd
+    expose:
+      - 80
     networks:
-      - internal
+      - mynet
   db:
-    build:
-      context: ./postgresql
-      dockerfile: Dockerfile
+    container_name: db
+    image: postgres
+    expose:
+      - 5432
+    environment:
+      POSTGRES_PASSWORD: postgres
     networks:
-      - internal
-  reverse-proxy:
-    build:
-      context: ./nginx-reverse-proxy
-      dockerfile: Dockerfile
+      - mynet
+  reverseproxy:
+    container_name: reverseproxy
+    build: ./nginx-reverse-proxy
     ports:
       - '80:80'
     networks:
-      - internal
+      - mynet
+    depends_on:
+      - appweb
+      - db
 networks:
-  internal:
+  mynet:
+    name: mynet
     driver: bridge
