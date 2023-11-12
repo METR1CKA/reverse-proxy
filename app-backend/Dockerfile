@@ -12,9 +12,9 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
   && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz\
   && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
-RUN git clone https://github.com/METR1CKA/practica-encriptacion-api-compiled.git /backend
+RUN git clone https://github.com/METR1CKA/practica-encriptacion-api-compiled.git /app-backend
 
-WORKDIR /backend
+WORKDIR /app-backend
 
 RUN npm ci --production
 
