@@ -1,32 +1,38 @@
 version: "3.8"
+
 services:
-  appweb:
-    container_name: appweb
-    image: httpd
-    expose:
-      - 80
-    networks:
-      - mynet
   db:
     container_name: db
-    image: postgres
-    expose:
-      - 5432
-    environment:
-      POSTGRES_PASSWORD: postgres
+    build: ./db
     networks:
-      - mynet
+      - proxynetwork
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+  backend:
+    container_name: backend
+    build: ./backend
+    env_file: ./backend/.env
+    networks:
+      - proxynetwork
+    depends_on:
+      - db
+    links:
+      - db
   reverseproxy:
     container_name: reverseproxy
-    build: .
+    build: ./reverseproxy
     ports:
       - "80:80"
     networks:
-      - mynet
+      - proxynetwork
     depends_on:
-      - appweb
-      - db
+      - backend
+    links:
+      - backend
 networks:
-  mynet:
-    name: mynet
+  proxynetwork:
+    name: proxynetwork
     driver: bridge
+volumes:
+  dbdata:
+    name: dbdata
