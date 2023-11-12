@@ -1,38 +1,37 @@
 version: "3.8"
-
 services:
-  db:
-    container_name: db
-    build: ./db
+  app-database:
+    container_name: app-database
+    build: ./app-database
     networks:
-      - proxynetwork
+      - app-network
     volumes:
-      - dbdata:/var/lib/postgresql/data
-  backend:
-    container_name: backend
-    build: ./backend
-    env_file: ./backend/.env
+      - app-database-data:/var/lib/postgresql/data
+  app-backend:
+    container_name: app-backend
+    build: ./app-backend
+    env_file: ./app-backend/.env
     networks:
-      - proxynetwork
+      - app-network
     depends_on:
-      - db
+      - app-database
     links:
-      - db
-  reverseproxy:
-    container_name: reverseproxy
-    build: ./reverseproxy
+      - app-database
+  app-reverse-proxy:
+    container_name: app-reverse-proxy
+    build: ./app-reverse-proxy
     ports:
       - "80:80"
     networks:
-      - proxynetwork
+      - app-network
     depends_on:
-      - backend
+      - app-backend
     links:
-      - backend
+      - app-backend
 networks:
-  proxynetwork:
-    name: proxynetwork
+  app-network:
+    name: app-network
     driver: bridge
 volumes:
-  dbdata:
-    name: dbdata
+  app-database-data:
+    name: app-database-data
