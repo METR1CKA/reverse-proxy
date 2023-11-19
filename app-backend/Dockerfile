@@ -24,4 +24,4 @@ COPY .env .
 
 RUN npm install -g pm2
 
-CMD dockerize -wait tcp://app-database:5432 -timeout 60s npm run db:runf && pm2-runtime start npm -- start
+CMD dockerize -wait tcp://app-database:5432 -timeout 60s git pull && npm run db:runf && pm2-runtime start npm -- start
