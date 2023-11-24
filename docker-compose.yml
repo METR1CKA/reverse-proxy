@@ -10,7 +10,7 @@ services:
   app-backend:
     container_name: app-backend
     build: ./app-backend
-    env_file: ./app-backend/api/.env
+    env_file: ./app-backend/.env
     networks:
       - app-network
     depends_on:

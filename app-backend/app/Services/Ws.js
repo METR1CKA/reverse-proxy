@@ -18,9 +18,7 @@ class Ws {
         this.booted = true;
         this.io = new socket_io_1.Server(instance, {
             cors: {
-                origin: Env_1.default.get('NODE_ENV') == 'development'
-                    ? true
-                    : 'http://localhost/'
+                origin: true,
             },
             path: Env_1.default.get('NODE_ENV') == 'development'
                 ? '/socket.io'
